@@ -38,7 +38,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/glfw)
 #source files
 #FILE(GLOB SOURCE_FILES src/cpp/**/*.cpp)
 #add target
-add_executable(skiatest main.cpp ${SOURCE_FILES})
+add_executable(skiatest src/main.cpp ${SOURCE_FILES})
 
 #include dirs
 target_include_directories(skiatest PRIVATE ${OPENGL_INCLUDE_DIRS})
@@ -46,11 +46,12 @@ target_include_directories(skiatest PRIVATE ${FREETYPE_INCLUDE_DIRS})
 target_include_directories(skiatest PRIVATE ${Fontconfig_INCLUDE_DIRS})
 target_include_directories(skiatest PRIVATE glfw/include)
 target_include_directories(skiatest PRIVATE glfw/deps)
+target_include_directories(skiatest PRIVATE src/headers)
 target_include_directories(skiatest PRIVATE .)
 
 #libraries
 target_link_directories(skiatest PRIVATE ${CMAKE_SOURCE_DIR}/lib)
 
 #link libraries
-target_link_libraries(skiatest ${OPENGL_LIBRARIES} ${FREETYPE_LIBRARIES} ${Fontconfig_LIBRARIES} skia glfw)
+target_link_libraries(skiatest ${OPENGL_LIBRARIES} ${FREETYPE_LIBRARIES} ${Fontconfig_LIBRARIES} skiadebug glfw)
 # target_link_libraries(skiatest ${OPENGL_LIBRARIES} skia glfw)

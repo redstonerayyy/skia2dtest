@@ -92,7 +92,7 @@ int main(void) {
 		paint.setColor(SK_ColorWHITE);
 		canvas->drawPaint(paint);
 		paint.setColor(SK_ColorBLUE);
-		canvas->drawRect({100, 200, 300, 500}, paint);
+		canvas->drawRect({0, 0, 300, 500}, paint);
 		sContext->flush();
 
 		glfwSwapBuffers(window);

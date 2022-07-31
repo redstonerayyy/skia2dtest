@@ -10,8 +10,8 @@
 #include <stdlib.h>
 
 //uncomment the two lines below to enable correct color spaces
-//#define GL_FRAMEBUFFER_SRGB 0x8DB9
-//#define GL_SRGB8_ALPHA8 0x8C43
+#define GL_FRAMEBUFFER_SRGB 0x8DB9
+#define GL_SRGB8_ALPHA8 0x8C43
 
 GrDirectContext* sContext = nullptr;
 SkSurface* sSurface = nullptr;
@@ -33,7 +33,8 @@ void init_skia(int w, int h) {
 	framebufferInfo.fFBOID = 0; // assume default framebuffer
 	// We are always using OpenGL and we use RGBA8 internal format for both RGBA and BGRA configs in OpenGL.
 	//(replace line below with this one to enable correct color spaces) framebufferInfo.fFormat = GL_SRGB8_ALPHA8;
-	framebufferInfo.fFormat = GL_RGBA8;
+	framebufferInfo.fFormat = GL_SRGB8_ALPHA8;
+	// framebufferInfo.fFormat = GL_RGBA8;
 
 	SkColorType colorType = kRGBA_8888_SkColorType;
 	GrBackendRenderTarget backendRenderTarget(w, h,
@@ -42,7 +43,8 @@ void init_skia(int w, int h) {
 		framebufferInfo);
 
 	//(replace line below with this one to enable correct color spaces) sSurface = SkSurface::MakeFromBackendRenderTarget(sContext, backendRenderTarget, kBottomLeft_GrSurfaceOrigin, colorType, SkColorSpace::MakeSRGB(), nullptr).release();
-	sSurface = SkSurface::MakeFromBackendRenderTarget(sContext, backendRenderTarget, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, nullptr).release();
+	sSurface = SkSurface::MakeFromBackendRenderTarget(sContext, backendRenderTarget, kBottomLeft_GrSurfaceOrigin, colorType, SkColorSpace::MakeSRGB(), nullptr).release();
+	// sSurface = SkSurface::MakeFromBackendRenderTarget(sContext, backendRenderTarget, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, nullptr).release();
 	if (sSurface == nullptr) abort();
 }
 
@@ -66,8 +68,9 @@ int main(void) {
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	//(uncomment to enable correct color spaces) glfwWindowHint(GLFW_SRGB_CAPABLE, GL_TRUE);
+	glfwWindowHint(GLFW_SRGB_CAPABLE, GL_TRUE);
 	glfwWindowHint(GLFW_STENCIL_BITS, 0);
-	//glfwWindowHint(GLFW_ALPHA_BITS, 0);
+	// glfwWindowHint(GLFW_ALPHA_BITS, 0);
 	glfwWindowHint(GLFW_DEPTH_BITS, 0);
 
 	window = glfwCreateWindow(kWidth, kHeight, "Simple example", NULL, NULL);
@@ -77,6 +80,7 @@ int main(void) {
 	}
 	glfwMakeContextCurrent(window);
 	//(uncomment to enable correct color spaces) glEnable(GL_FRAMEBUFFER_SRGB);
+	glEnable(GL_FRAMEBUFFER_SRGB);
 
 	init_skia(kWidth, kHeight);
 
